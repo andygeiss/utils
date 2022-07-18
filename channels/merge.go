@@ -10,10 +10,10 @@ func Merge[T any](in ...<-chan T) <-chan T {
 	wg.Add(len(in))
 	for _, ch := range in {
 		go func(c <-chan T) {
+			defer wg.Done()
 			for val := range c {
 				out <- val
 			}
-			wg.Done()
 		}(ch)
 	}
 	// create a gorouting for handling the close.
