@@ -42,16 +42,14 @@ func ProcessWithContext[T any](ctx context.Context, in <-chan T, fn func(ctx con
 	for i := 0; i < num; i++ {
 		go func() {
 			defer wg.Done()
-			for val := range in {
-				// process each value
-				out <- fn(ctx, val)
+			for {
 				select {
-				// check for cancelation
+				// check for cancel or timeout etc.
 				case <-ctx.Done():
-					if err := ctx.Err(); err != nil {
-						// handle errors during context
-					}
 					return
+				// delegate work to the function
+				case val := <-in:
+					out <- fn(ctx, val)
 				}
 			}
 		}()
