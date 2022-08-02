@@ -8,5 +8,5 @@ func init() {
 }
 
 var wrapper = func(fn func()) {
-	panic("run.Main(..) must be called before run.Run(..)")
+	panic("run.Main(..) must be called before run.Safe(..)")
 }
