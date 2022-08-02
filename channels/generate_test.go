@@ -15,6 +15,6 @@ func Test_Generate(t *testing.T) {
 		sum += val
 		num++
 	}
-	assert.That("number of values should be 24", num, 24, t)
-	assert.That("sum of the values should be 300", sum, 300, t)
+	assert.That("number of values should be 24", t, num, 24)
+	assert.That("sum of the values should be 300", t, sum, 300)
 }

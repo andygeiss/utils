@@ -17,6 +17,6 @@ func Test_Merge(t *testing.T) {
 		sum += val
 		num++
 	}
-	assert.That("number of values should be 8", num, 8, t)
-	assert.That("sum of the values should be 14", sum, 36, t)
+	assert.That("number of values should be 24", t, num, 24)
+	assert.That("sum of the values should be 300", t, sum, 300)
 }
