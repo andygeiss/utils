@@ -1,7 +1,6 @@
 package channels_test
 
 import (
-	"context"
 	"testing"
 	"time"
 
@@ -10,8 +9,9 @@ import (
 )
 
 func Test_Process(t *testing.T) {
-	ch := channels.Generate(1, 2, 3, 4)
+	ch := channels.Generate(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24)
 	fn := func(in int) (out int) {
+		time.Sleep(time.Second * 1)
 		return in
 	}
 	out := channels.Process(ch, fn)
@@ -21,26 +21,6 @@ func Test_Process(t *testing.T) {
 		sum += val
 		num++
 	}
-	assert.That("number of values should be 4", num, 4, t)
-	assert.That("sum of the values should be 10", sum, 10, t)
-}
-
-func Test_ProcessWithContext(t *testing.T) {
-	ch := channels.Generate(1, 2, 3, 4)
-	fn := func(ctx context.Context, in int) (out int) {
-		return in
-	}
-
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second*1)
-	out := channels.ProcessWithContext(ctx, ch, fn)
-
-	num := 0
-	sum := 0
-	for val := range out {
-		sum += val
-		num++
-	}
-	cancel()
-
-	assert.That("sum should be 10", sum, 10, t)
+	assert.That("number of values should be 24", num, 24, t)
+	assert.That("sum of the values should be 300", sum, 300, t)
 }
