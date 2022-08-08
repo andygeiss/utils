@@ -16,7 +16,7 @@ func Merge[T any](in ...<-chan T) <-chan T {
 			}
 		}(ch)
 	}
-	// create a gorouting for handling the close.
+	// create a goroutine for handling the close.
 	go func() {
 		wg.Wait()
 		close(out)
