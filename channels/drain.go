@@ -21,7 +21,7 @@ func Drain[T any](in <-chan T, fn func(in T)) {
 			}
 		}()
 	}
-	// create a gorouting for handling the close.
+	// create a goroutine for handling the close.
 	go func() {
 		wg.Wait()
 		close(out)
