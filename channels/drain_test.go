@@ -23,6 +23,12 @@ func Test_Drain(t *testing.T) {
 		res.Num++
 		res.Sum += val
 	})
-	assert.That("number of values should be 24", t, res.Num, 24)
+	for {
+		res.mutex.Lock()
+		if res.Num == 24 {
+			break
+		}
+		res.mutex.Unlock()
+	}
 	assert.That("sum of the values should be 300", t, res.Sum, 300)
 }
