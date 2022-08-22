@@ -7,7 +7,7 @@ import (
 
 // Process works on each value from an input channel and
 // sends the result to an output channel.
-func Process[T any](in <-chan T, fn func(in T) T) <-chan T {
+func Process[T any](in <-chan T, fn func(in T) T) chan T {
 	out := make(chan T)
 	// create a goroutine for each available cpu.
 	num := runtime.NumCPU()
