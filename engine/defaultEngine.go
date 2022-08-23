@@ -17,19 +17,9 @@ type defaultEngine struct {
 
 func (a *defaultEngine) Setup() (stopCh chan bool) {
 	// set up a goroutine which waits for SIGTERM to close the program.
-	a.sigTerm = make(chan os.Signal, 2)
-	signal.Notify(a.sigTerm, os.Interrupt, syscall.SIGTERM)
-	go func() {
-		<-a.sigTerm
-		a.Teardown()
-		os.Exit(0)
-	}()
+	a.setupSigTerm()
 	// set up a goroutine which waits for a stop.
-	ch := make(chan bool)
-	go func() {
-		<-ch
-		a.state = StateEngineStopped
-	}()
+	ch := a.setupStopCh()
 	// first set up the systems.
 	for _, sys := range a.systems {
 		sys.Setup()
@@ -59,6 +49,25 @@ func (a *defaultEngine) Teardown() {
 func (a *defaultEngine) WithSystems(s ...System) Engine {
 	a.systems = append(a.systems, s...)
 	return a
+}
+
+func (a *defaultEngine) setupSigTerm() {
+	a.sigTerm = make(chan os.Signal, 2)
+	signal.Notify(a.sigTerm, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-a.sigTerm
+		a.Teardown()
+		os.Exit(0)
+	}()
+}
+
+func (a *defaultEngine) setupStopCh() chan bool {
+	ch := make(chan bool)
+	go func() {
+		<-ch
+		a.state = StateEngineStopped
+	}()
+	return ch
 }
 
 func NewDefaultEngine() Engine {
