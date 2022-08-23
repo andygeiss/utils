@@ -1,4 +1,6 @@
 # Utils
+[![Go Report Card](https://goreportcard.com/badge/github.com/andygeiss/utils)](https://goreportcard.com/report/github.com/andygeiss/utils)
+[![BCH compliance](https://bettercodehub.com/edge/badge/andygeiss/utils?branch=master)](https://bettercodehub.com/)
 
 A collection of helpful utility functions in Golang.
 

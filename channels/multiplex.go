@@ -22,9 +22,13 @@ func Multiplex[T any](in <-chan T, num int) (out []chan T) {
 	// create a goroutine for handling the close.
 	go func() {
 		wg.Wait()
-		for i := 0; i < num; i++ {
-			close(out[i])
-		}
+		closeChannels(out)
 	}()
 	return out
+}
+
+func closeChannels[T any](channels []chan T) {
+	for i := 0; i < len(channels); i++ {
+		close(channels[i])
+	}
 }
