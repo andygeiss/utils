@@ -1,8 +1,8 @@
 package entity
 
-// Component contains only the data (no behaviour at all).
+// Component contains only the data (no behavior).
 // The Name() method must be implemented, because the inMemoryRepository
-// uses it to filter the entities by component names.
+// uses it to filter the entities by component name.
 type Component interface {
 	Mask() uint64
 }

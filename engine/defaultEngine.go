@@ -7,7 +7,7 @@ import (
 	"syscall"
 )
 
-// defaultEngine implements a straightforward implementation using channels.
+// defaultEngine implements a simple implementation using channels.
 type defaultEngine struct {
 	sigTerm chan os.Signal
 	state   int
@@ -15,18 +15,19 @@ type defaultEngine struct {
 	mutex   sync.Mutex
 }
 
+// Setup initializes the engine and its subsystems.
 func (a *defaultEngine) Setup() (stopCh chan bool) {
-	// set up a goroutine which waits for SIGTERM to close the program.
+	// Set up a goroutine that waits for SIGTERM to terminate the program.
 	a.setupSigTerm()
-	// set up a goroutine which waits for a stop.
+	// Set up a goroutine that waits for a stop.
 	ch := a.setupStopCh()
-	// first set up the systems.
+	// First, set up the systems.
 	for _, sys := range a.systems {
 		sys.Setup()
 	}
-	// set the state
+	// Set the initial state.
 	a.state = StateEngineRunning
-	// set up a goroutine for a loop to process the systems.
+	// Set up a goroutine for a loop to process the systems.
 	go func() {
 		for _, sys := range a.systems {
 			sys.Process(ch)
@@ -35,10 +36,12 @@ func (a *defaultEngine) Setup() (stopCh chan bool) {
 	return ch
 }
 
+// State returns the current state of the engine.
 func (a *defaultEngine) State() (state int) {
 	return a.state
 }
 
+// Teardown shuts down the engine and its subsystems.
 func (a *defaultEngine) Teardown() {
 	for _, sys := range a.systems {
 		sys.Teardown()
@@ -46,6 +49,7 @@ func (a *defaultEngine) Teardown() {
 	a.state = StateEngineStopped
 }
 
+// WithSystems adds a specific number of systems to the engine.
 func (a *defaultEngine) WithSystems(s ...System) Engine {
 	a.systems = append(a.systems, s...)
 	return a
@@ -70,10 +74,12 @@ func (a *defaultEngine) setupStopCh() chan bool {
 	return ch
 }
 
+// NewDefaultEngine creates a new engine an returns its address.
 func NewDefaultEngine() Engine {
 	return &defaultEngine{
 		state: StateEngineStopped,
 	}
 }
 
+// DefaultEngine ...
 var DefaultEngine = NewDefaultEngine()
