@@ -91,5 +91,5 @@ func NewInMemoryRepository() Repository {
 	}
 }
 
-// DefaultManager ...
-var DefaultManager = NewInMemoryRepository()
+// DefaultRepository ...
+var DefaultRepository = NewInMemoryRepository()
