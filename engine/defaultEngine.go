@@ -29,8 +29,10 @@ func (a *defaultEngine) Setup() (stopCh chan bool) {
 	a.state = StateEngineRunning
 	// Set up a goroutine for a loop to process the systems.
 	go func() {
-		for _, sys := range a.systems {
-			sys.Process(ch)
+		for a.state == StateEngineRunning {
+			for _, sys := range a.systems {
+				sys.Process(ch)
+			}
 		}
 	}()
 	return ch
