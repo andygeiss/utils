@@ -62,8 +62,7 @@ func (a *defaultEngine) setupSigTerm() {
 	signal.Notify(a.sigTerm, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-a.sigTerm
-		a.Teardown()
-		os.Exit(0)
+		a.state = StateEngineStopped
 	}()
 }
 
