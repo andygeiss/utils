@@ -1,6 +1,7 @@
 package engine
 
 import (
+	"github.com/andygeiss/utils/run"
 	"os"
 	"os/signal"
 	"sync"
@@ -60,10 +61,10 @@ func (a *defaultEngine) WithSystems(s ...System) Engine {
 func (a *defaultEngine) setupSigTerm() {
 	a.sigTerm = make(chan os.Signal, 2)
 	signal.Notify(a.sigTerm, os.Interrupt, syscall.SIGTERM)
-	go func() {
+	go run.Safe(func() {
 		<-a.sigTerm
 		a.state = StateEngineStopped
-	}()
+	})
 }
 
 func (a *defaultEngine) setupStopCh() chan bool {
