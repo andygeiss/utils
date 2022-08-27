@@ -31,9 +31,10 @@ func Main(main func()) {
 		select {
 		case fn := <-caller:
 			// prevent nil pointer dereference
-			if fn != nil {
-				fn()
+			if fn == nil {
+				return
 			}
+			fn()
 		case <-sigTerm:
 			return
 		}
