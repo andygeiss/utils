@@ -21,19 +21,19 @@ type Entity struct {
 }
 
 // Add a component.
-func (e *Entity) Add(cn ...Component) {
+func (a *Entity) Add(cn ...Component) {
 	for _, c := range cn {
-		if e.Masked&c.Mask() == c.Mask() {
+		if a.Masked&c.Mask() == c.Mask() {
 			continue
 		}
-		e.Components = append(e.Components, c)
-		e.Masked = maskSlice(e.Components)
+		a.Components = append(a.Components, c)
+		a.Masked = maskSlice(a.Components)
 	}
 }
 
 // Get a component by its bitmask.
-func (e *Entity) Get(mask uint64) Component {
-	for _, c := range e.Components {
+func (a *Entity) Get(mask uint64) Component {
+	for _, c := range a.Components {
 		if c.Mask() == mask {
 			return c
 		}
@@ -42,39 +42,45 @@ func (e *Entity) Get(mask uint64) Component {
 }
 
 // ID ...
-func (e *Entity) ID() string {
-	return e.Id
+func (a *Entity) ID() string {
+	return a.Id
 }
 
 // Mask returns a pre-calculated maskSlice to identify the Components.
-func (e *Entity) Mask() uint64 {
-	return e.Masked
+func (a *Entity) Mask() uint64 {
+	return a.Masked
 }
 
 // Remove a component by using its maskSlice.
-func (e *Entity) Remove(mask uint64) {
+func (a *Entity) Remove(mask uint64) {
 	modified := false
-	for i, c := range e.Components {
+	for i, c := range a.Components {
 		if c.Mask() == mask {
-			copy(e.Components[i:], e.Components[i+1:])
-			e.Components[len(e.Components)-1] = nil
-			e.Components = e.Components[:len(e.Components)-1]
+			copy(a.Components[i:], a.Components[i+1:])
+			a.Components[len(a.Components)-1] = nil
+			a.Components = a.Components[:len(a.Components)-1]
 			modified = true
 			break
 		}
 	}
 	if modified {
-		e.Masked = maskSlice(e.Components)
+		a.Masked = maskSlice(a.Components)
 	}
 }
 
+func (a *Entity) WithComponents(components ...Component) *Entity {
+	a.Add(components...)
+	return a
+}
+
+func (a *Entity) WithID(id string) *Entity {
+	a.Id = id
+	return a
+}
+
 // NewEntity creates a new entity and pre-calculates the component maskSlice.
-func NewEntity(id string, components []Component) *Entity {
-	return &Entity{
-		Components: components,
-		Id:         id,
-		Masked:     maskSlice(components),
-	}
+func NewEntity() *Entity {
+	return &Entity{}
 }
 
 func maskSlice(components []Component) uint64 {
