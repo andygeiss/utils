@@ -1,11 +1,8 @@
 package engine
 
 import (
-	"github.com/andygeiss/utils/run"
 	"os"
-	"os/signal"
 	"sync"
-	"syscall"
 )
 
 // defaultEngine implements a simple implementation using channels.
@@ -18,8 +15,6 @@ type defaultEngine struct {
 
 // Setup initializes the engine and its subsystems.
 func (a *defaultEngine) Setup() (stopCh chan bool) {
-	// Set up a goroutine that waits for SIGTERM to terminate the program.
-	a.setupSigTerm()
 	// Set up a goroutine that waits for a stop.
 	ch := a.setupStopCh()
 	// First, set up the systems.
@@ -56,15 +51,6 @@ func (a *defaultEngine) Teardown() {
 func (a *defaultEngine) WithSystems(s ...System) Engine {
 	a.systems = append(a.systems, s...)
 	return a
-}
-
-func (a *defaultEngine) setupSigTerm() {
-	a.sigTerm = make(chan os.Signal, 2)
-	signal.Notify(a.sigTerm, os.Interrupt, syscall.SIGTERM)
-	go run.Safe(func() {
-		<-a.sigTerm
-		a.state = StateEngineStopped
-	})
 }
 
 func (a *defaultEngine) setupStopCh() chan bool {

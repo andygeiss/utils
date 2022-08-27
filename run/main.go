@@ -1,5 +1,11 @@
 package run
 
+import (
+	"os"
+	"os/signal"
+	"syscall"
+)
+
 // Main ensures guarded calls to the main OS thread.
 func Main(main func()) {
 	caller := make(chan func())
@@ -17,8 +23,16 @@ func Main(main func()) {
 		main()
 		close(caller)
 	}()
+	// set up a signal handler.
+	sigTerm := make(chan os.Signal, 2)
+	signal.Notify(sigTerm, os.Interrupt, syscall.SIGTERM)
 	// wait for close.
-	for fn := range caller {
-		fn()
+	for {
+		select {
+		case fn := <-caller:
+			fn()
+		case <-sigTerm:
+			return
+		}
 	}
 }
