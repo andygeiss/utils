@@ -15,11 +15,10 @@ func TestDefaultEngine_Setup(t *testing.T) {
 	eng.Setup()
 	valueSetup = sys.Value
 	stateSetup = eng.State()
-	for eng.State() == engine.StateEngineRunning {
-	}
+	eng.Start()
 	valueProcess = sys.Value
 	stateProcess = eng.State()
-	assert.That("state should be StateEngineRunning after calling Setup", t, stateSetup, engine.StateEngineRunning)
+	assert.That("state should be StateEngineStopped after calling Setup", t, stateSetup, engine.StateEngineRunning)
 	assert.That("state should be StateEngineStopped after calling Process", t, stateProcess, engine.StateEngineStopped)
 	assert.That("valueSetup should be 0", t, valueSetup, 0)
 	assert.That("valueProcess should be 1", t, valueProcess, 1)

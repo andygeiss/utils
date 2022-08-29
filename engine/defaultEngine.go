@@ -14,13 +14,18 @@ type defaultEngine struct {
 }
 
 // Setup initializes the engine and its subsystems.
-func (a *defaultEngine) Setup() (stopCh chan bool) {
-	// Set up a goroutine that waits for a stop.
-	ch := a.setupStopCh()
+func (a *defaultEngine) Setup() {
 	// First, set up the systems.
 	for _, sys := range a.systems {
 		sys.Setup()
 	}
+	a.state = StateEngineStopped
+}
+
+// Start calls each system as long as the state is "Running".
+func (a *defaultEngine) Start() (stopCh chan bool) {
+	// Set up a goroutine that waits for a stop.
+	ch := a.setupStopCh()
 	// Set the initial state.
 	a.state = StateEngineRunning
 	// Set up a goroutine for a loop to process the systems.
