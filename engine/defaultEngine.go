@@ -23,20 +23,17 @@ func (a *defaultEngine) Setup() {
 }
 
 // Start calls each system as long as the state is "Running".
-func (a *defaultEngine) Start() (stopCh chan bool) {
+func (a *defaultEngine) Start() {
 	// Set up a goroutine that waits for a stop.
 	ch := a.setupStopCh()
 	// Set the initial state.
 	a.state = StateEngineRunning
 	// Set up a goroutine for a loop to process the systems.
-	go func() {
-		for a.state == StateEngineRunning {
-			for _, sys := range a.systems {
-				sys.Process(ch)
-			}
+	for a.state == StateEngineRunning {
+		for _, sys := range a.systems {
+			sys.Process(ch)
 		}
-	}()
-	return ch
+	}
 }
 
 // State returns the current state of the engine.
