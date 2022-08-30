@@ -1,9 +1,7 @@
 # Utils
 
-[![](https://img.shields.io/github/license/andygeiss/utils)](https://github.com/andygeiss/utils/blob/master/LICENSE)
+[![](https://img.shields.io/github/license/andygeiss/utils)](https://github.com/andygeiss/utils/blob/main/LICENSE)
 [![](https://img.shields.io/github/v/release/andygeiss/utils)](https://github.com/andygeiss/utils/releases)
-[![](https://img.shields.io/codeclimate/maintainability/andygeiss/utils)](https://github.com/andygeiss/utils)
-[![](https://img.shields.io/codeclimate/tech-debt/andygeiss/utils)](https://github.com/andygeiss/utils)
 [![](https://img.shields.io/github/go-mod/go-version/andygeiss/utils)](https://github.com/andygeiss/utils)
 [![Go Report Card](https://goreportcard.com/badge/github.com/andygeiss/utils)](https://goreportcard.com/report/github.com/andygeiss/utils)
 [![BCH compliance](https://bettercodehub.com/edge/badge/andygeiss/utils?branch=main)](https://bettercodehub.com/)
