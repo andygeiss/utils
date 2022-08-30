@@ -19,15 +19,15 @@ func TestEntityManager_Entities_Should_Have_One_Entity_After_Adding_One_Entity(t
 
 func TestEntityManager_Entities_Should_Have_Two_Entities_After_Adding_Two_Entities(t *testing.T) {
 	m := entity.NewInMemoryRepository()
-	m.Add(entity.NewEntity("e1", nil))
-	m.Add(entity.NewEntity("e2", nil))
+	m.Add(entity.NewEntity())
+	m.Add(entity.NewEntity())
 	assert.That("manager should have two entity", t, len(m.Entities()), 2)
 }
 
 func TestEntityManager_Entities_Should_Have_One_Entity_After_Removing_One_Of_Two_Entities(t *testing.T) {
 	m := entity.NewInMemoryRepository()
-	e1 := entity.NewEntity("e1", nil)
-	e2 := entity.NewEntity("e2", nil)
+	e1 := entity.NewEntity().WithID("e1")
+	e2 := entity.NewEntity().WithID("e2")
 	m.Add(e1)
 	m.Add(e2)
 	m.Remove(e2)
@@ -37,9 +37,11 @@ func TestEntityManager_Entities_Should_Have_One_Entity_After_Removing_One_Of_Two
 
 func TestEntityManager_FilterByMask_Should_Return_No_Entity_Out_Of_One(t *testing.T) {
 	em := entity.NewInMemoryRepository()
-	e := entity.NewEntity("e", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-	})
+	e := entity.NewEntity().
+		WithID("e1").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+		)
 	em.Add(e)
 	filtered := em.FilterByMask(2)
 	assert.That("filter should return no entity", t, len(filtered), 0)
@@ -47,9 +49,11 @@ func TestEntityManager_FilterByMask_Should_Return_No_Entity_Out_Of_One(t *testin
 
 func TestEntityManager_FilterByMask_Should_Return_One_Entity_Out_Of_One(t *testing.T) {
 	em := entity.NewInMemoryRepository()
-	e := entity.NewEntity("e", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-	})
+	e := entity.NewEntity().
+		WithID("e1").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+		)
 	em.Add(e)
 	filtered := em.FilterByMask(1)
 	assert.That("filter should return one entity", t, len(filtered), 1)
@@ -57,13 +61,17 @@ func TestEntityManager_FilterByMask_Should_Return_One_Entity_Out_Of_One(t *testi
 
 func TestEntityManager_FilterByMask_Should_Return_One_Entity_Out_Of_Two(t *testing.T) {
 	em := entity.NewInMemoryRepository()
-	e1 := entity.NewEntity("e1", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-	})
-	e2 := entity.NewEntity("e2", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-		&mockComponent{name: "size", mask: 2},
-	})
+	e1 := entity.NewEntity().
+		WithID("e1").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+		)
+	e2 := entity.NewEntity().
+		WithID("e2").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+			&mockComponent{name: "size", mask: 2},
+		)
 	em.Add(e1, e2)
 	filtered := em.FilterByMask(2)
 	assert.That("filter should return one entity", t, len(filtered), 1)
@@ -72,17 +80,23 @@ func TestEntityManager_FilterByMask_Should_Return_One_Entity_Out_Of_Two(t *testi
 
 func TestEntityManager_FilterByMask_Should_Return_Two_Entities_Out_Of_Three(t *testing.T) {
 	em := entity.NewInMemoryRepository()
-	e1 := entity.NewEntity("e1", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-	})
-	e2 := entity.NewEntity("e2", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-		&mockComponent{name: "size", mask: 2},
-	})
-	e3 := entity.NewEntity("e3", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-		&mockComponent{name: "size", mask: 2},
-	})
+	e1 := entity.NewEntity().
+		WithID("e1").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+		)
+	e2 := entity.NewEntity().
+		WithID("e2").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+			&mockComponent{name: "size", mask: 2},
+		)
+	e3 := entity.NewEntity().
+		WithID("e3").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+			&mockComponent{name: "size", mask: 2},
+		)
 	em.Add(e1, e2, e3)
 	filtered := em.FilterByMask(2)
 	assert.That("filter should return one entity", t, len(filtered), 2)
@@ -92,18 +106,24 @@ func TestEntityManager_FilterByMask_Should_Return_Two_Entities_Out_Of_Three(t *t
 
 func TestEntityManager_FilterByMask_Should_Return_Three_Entities_Out_Of_Three(t *testing.T) {
 	em := entity.NewInMemoryRepository()
-	e1 := entity.NewEntity("e1", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-		&mockComponent{name: "size", mask: 2},
-	})
-	e2 := entity.NewEntity("e2", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-		&mockComponent{name: "size", mask: 2},
-	})
-	e3 := entity.NewEntity("e3", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-		&mockComponent{name: "size", mask: 2},
-	})
+	e1 := entity.NewEntity().
+		WithID("e1").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+			&mockComponent{name: "size", mask: 2},
+		)
+	e2 := entity.NewEntity().
+		WithID("e2").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+			&mockComponent{name: "size", mask: 2},
+		)
+	e3 := entity.NewEntity().
+		WithID("e3").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+			&mockComponent{name: "size", mask: 2},
+		)
 	em.Add(e1, e2, e3)
 	filtered := em.FilterByMask(1 | 2)
 	assert.That("filter should return one entity", t, len(filtered), 3)
@@ -114,18 +134,24 @@ func TestEntityManager_FilterByMask_Should_Return_Three_Entities_Out_Of_Three(t 
 
 func TestEntityManager_FilterByNames_Should_Return_Three_Entities_Out_Of_Three(t *testing.T) {
 	em := entity.NewInMemoryRepository()
-	e1 := entity.NewEntity("e1", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-		&mockComponent{name: "size", mask: 2},
-	})
-	e2 := entity.NewEntity("e2", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-		&mockComponent{name: "size", mask: 2},
-	})
-	e3 := entity.NewEntity("e3", []entity.Component{
-		&mockComponent{name: "position", mask: 1},
-		&mockComponent{name: "size", mask: 2},
-	})
+	e1 := entity.NewEntity().
+		WithID("e1").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+			&mockComponent{name: "size", mask: 2},
+		)
+	e2 := entity.NewEntity().
+		WithID("e2").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+			&mockComponent{name: "size", mask: 2},
+		)
+	e3 := entity.NewEntity().
+		WithID("e3").
+		WithComponents(
+			&mockComponent{name: "position", mask: 1},
+			&mockComponent{name: "size", mask: 2},
+		)
 	em.Add(e1, e2, e3)
 	filtered := em.FilterByNames("position", "size")
 	assert.That("filter should return one entity", t, len(filtered), 3)

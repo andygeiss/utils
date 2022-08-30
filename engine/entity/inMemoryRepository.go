@@ -91,5 +91,5 @@ func NewInMemoryRepository() Repository {
 	}
 }
 
-// DefaultRepository ...
+// DefaultRepository is initialized by NewInMemoryRepository().
 var DefaultRepository = NewInMemoryRepository()
