@@ -7,7 +7,10 @@ type inMemoryBus struct {
 func (b *inMemoryBus) Publish(topic string, data interface{}) {
 	if consumers, ok := b.topics[topic]; ok {
 		for _, consumer := range consumers {
-			consumer <- data
+			consumer := consumer
+			go func() {
+				consumer <- data
+			}()
 		}
 	}
 }
