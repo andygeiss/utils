@@ -9,6 +9,6 @@ import (
 // fails the test if they are both not equal.
 func That[T any](desc string, t *testing.T, value, expected T) {
 	if fmt.Sprintf("%v", value) != fmt.Sprintf("%v", expected) {
-		t.Fatalf("%s, but value is [%v]", desc, value)
+		t.Fatalf("%s, but value is [%v] instead of [%v]", desc, value, expected)
 	}
 }
