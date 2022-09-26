@@ -2,6 +2,7 @@ package message_test
 
 import (
 	"github.com/andygeiss/utils/assert"
+	"github.com/andygeiss/utils/message"
 	"testing"
 	"time"
 )
