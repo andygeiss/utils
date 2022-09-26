@@ -1,15 +1,14 @@
-package event_test
+package message_test
 
 import (
 	"github.com/andygeiss/utils/assert"
-	"github.com/andygeiss/utils/event"
 	"testing"
 	"time"
 )
 
 func TestInMemoryBus(t *testing.T) {
 
-	bus := event.DefaultBus
+	bus := message.DefaultBus
 
 	// consumer 1
 	consumer1Ch := make(chan interface{})

@@ -1,4 +1,4 @@
-package event
+package message
 
 // Bus ...
 type Bus interface {

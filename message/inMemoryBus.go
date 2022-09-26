@@ -1,4 +1,4 @@
-package event
+package message
 
 type inMemoryBus struct {
 	topics map[string][]chan interface{}
