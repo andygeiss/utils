@@ -15,7 +15,7 @@ func (b *inMemoryBus) Publish(topic string, data interface{}) {
 	}
 }
 
-func (b *inMemoryBus) Register(topic string, consumer chan interface{}) {
+func (b *inMemoryBus) Subscribe(topic string, consumer chan interface{}) {
 	consumers, ok := b.topics[topic]
 	if !ok {
 		consumers = make([]chan interface{}, 0)

@@ -27,8 +27,8 @@ func TestInMemoryBus(t *testing.T) {
 		data2 = val.(string)
 	}()
 
-	bus.Register("foo", consumer1Ch)
-	bus.Register("foo", consumer2Ch)
+	bus.Subscribe("foo", consumer1Ch)
+	bus.Subscribe("foo", consumer2Ch)
 
 	// producer
 	bus.Publish("foo", "bar")
