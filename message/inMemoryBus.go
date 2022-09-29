@@ -1,10 +1,15 @@
 package message
 
+import "sync"
+
 type inMemoryBus struct {
 	topics map[string][]chan interface{}
+	mutex  sync.Mutex
 }
 
 func (b *inMemoryBus) Publish(topic string, data interface{}) {
+	b.mutex.Lock()
+	defer b.mutex.Unlock()
 	if consumers, ok := b.topics[topic]; ok {
 		for _, consumer := range consumers {
 			consumer := consumer
@@ -16,6 +21,8 @@ func (b *inMemoryBus) Publish(topic string, data interface{}) {
 }
 
 func (b *inMemoryBus) Subscribe(topic string, consumer chan interface{}) {
+	b.mutex.Lock()
+	defer b.mutex.Unlock()
 	consumers, ok := b.topics[topic]
 	if !ok {
 		consumers = make([]chan interface{}, 0)
