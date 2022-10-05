@@ -7,15 +7,17 @@ import (
 )
 
 // WriteFilesFromMap writes every file from the map to the file system.
-func WriteFilesFromMap(in map[string][]byte, path string) (err error) {
-	for base, content := range in {
-		_, err = os.Stat(path)
+func WriteFilesFromMap(in map[string][]byte, prefix string) (err error) {
+	for path, content := range in {
+		fqn := filepath.Join(prefix, path)
+		base := filepath.Dir(fqn)
+		_, err = os.Stat(base)
 		if errors.Is(err, os.ErrNotExist) {
-			if err := os.MkdirAll(filepath.Dir(base), 0755); err != nil {
+			if err := os.MkdirAll(base, 0755); err != nil {
 				return err
 			}
 		}
-		if err := os.WriteFile(base, content, 0644); err != nil {
+		if err := os.WriteFile(fqn, content, 0644); err != nil {
 			return err
 		}
 	}
