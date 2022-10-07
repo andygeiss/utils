@@ -1,13 +1,11 @@
 package engine
 
 import (
-	"os"
 	"sync"
 )
 
 // defaultEngine implements a simple implementation using channels.
 type defaultEngine struct {
-	sigTerm chan os.Signal
 	state   int
 	systems []System
 	mutex   sync.Mutex
