@@ -1,8 +1,8 @@
-package assets_test
+package resources_test
 
 import (
 	"github.com/andygeiss/utils/assert"
-	"github.com/andygeiss/utils/assets"
+	"github.com/andygeiss/utils/resources"
 	"os"
 	"path/filepath"
 	"testing"
@@ -13,7 +13,7 @@ func TestWriteTempFilesFromMap(t *testing.T) {
 		"testdata/bar.txt": []byte("bar"),
 		"testdata/foo.txt": []byte("foo"),
 	}
-	prefix, err := assets.WriteTempFilesFromMap(filesMap)
+	prefix, err := resources.WriteTempFilesFromMap(filesMap)
 	_, err1 := os.Stat(filepath.Join(prefix, "testdata", "bar.txt"))
 	_, err2 := os.Stat(filepath.Join(prefix, "testdata", "foo.txt"))
 	assert.That("err should be nil", t, err, nil)

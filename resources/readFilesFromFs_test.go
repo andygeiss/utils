@@ -1,9 +1,9 @@
-package assets_test
+package resources_test
 
 import (
 	"embed"
 	"github.com/andygeiss/utils/assert"
-	"github.com/andygeiss/utils/assets"
+	"github.com/andygeiss/utils/resources"
 	"testing"
 )
 
@@ -11,7 +11,7 @@ import (
 var testembed embed.FS
 
 func TestReadFilesFromFs(t *testing.T) {
-	filesMap, err := assets.ReadFilesFromFs(testembed)
+	filesMap, err := resources.ReadFilesFromFs(testembed)
 	assert.That("err should be nil", t, err, nil)
 	assert.That("filesMap should have file bar.txt", t, filesMap["testembed/bar.txt"] != nil, true)
 	assert.That("file bar.txt content should be correct", t, filesMap["testembed/bar.txt"], []byte("bar"))

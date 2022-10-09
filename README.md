@@ -11,9 +11,9 @@ A collection of helpful utility functions in Golang.
 ## Features
 
 - [x] **assert** - Assert test cases to write better test code. 
-- [x] **assets** - Read and Write files from the file system by using generics.
 - [x] **channels** - Generate, Merge, Process, Multiplex and Drain channels by using generics.
 - [x] **engine** - Use an Entity Component Systems (ECS) with an Engine to structure your code.
 - [x] **message** - Send messages from a Producer to one to many Consumers via a Bus.
+- [x] **resources** - Read and Write files from the file system by using generics.
 - [x] **run** - Main and Safe enables C-library calls to the main OS thread.
 - [x] **soa** - Allocate, Grow, Pack and Unpack data structures by using generics.
