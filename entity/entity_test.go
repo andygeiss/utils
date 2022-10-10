@@ -2,7 +2,7 @@ package entity_test
 
 import (
 	"github.com/andygeiss/utils/assert"
-	"github.com/andygeiss/utils/engine/entity"
+	"github.com/andygeiss/utils/entity"
 	"testing"
 )
 
