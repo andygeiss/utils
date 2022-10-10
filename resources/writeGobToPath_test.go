@@ -1,8 +1,8 @@
-package assets_test
+package resources_test
 
 import (
 	"github.com/andygeiss/utils/assert"
-	"github.com/andygeiss/utils/assets"
+	"github.com/andygeiss/utils/resources"
 	"os"
 	"path/filepath"
 	"testing"
@@ -16,6 +16,6 @@ func TestWriteGobToPath(t *testing.T) {
 	}{
 		Bar: "bar",
 	}
-	err := assets.WriteGobToPath(gob, path)
+	err := resources.WriteGobToPath(gob, path)
 	assert.That("err should be nil", t, err, nil)
 }
