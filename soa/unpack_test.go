@@ -10,19 +10,20 @@ import (
 
 func Test_Unpack(t *testing.T) {
 	src := soa.Allocate[int32]()
+	states := make([]uint64, len(src))
 
-	src[0] = 1
-	src[1] = 2
-	src[111] = 3
-	src[999] = 4
+	states[0] = 1
+	states[1] = 2
+	states[111] = 3
+	states[999] = 4
 
 	sizeOfOneValue := int(unsafe.Sizeof(int32(0)))
-	packed := soa.Pack(src)
+	packed := soa.Pack(src, states)
 	unpacked := soa.Unpack(packed)
 
 	src2 := soa.Grow(unpacked)
 	src2[sizeOfOneValue+13] = 8
-	packed2 := soa.Pack(src2)
+	packed2 := soa.Pack(src2, states)
 	unpacked2 := soa.Unpack(packed2)
 
 	assert.That("pack should shrink [packed] to 4", t, len(packed), 4)

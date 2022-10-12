@@ -8,10 +8,11 @@ import (
 
 func Test_Pack(t *testing.T) {
 	src := soa.Allocate[int32]()
-	src[0] = 1
-	src[1] = 2
-	src[111] = 3
-	src[999] = 4
-	packed := soa.Pack(src)
+	states := make([]uint64, len(src))
+	states[0] = 1
+	states[1] = 2
+	states[111] = 3
+	states[999] = 4
+	packed := soa.Pack(src, states)
 	assert.That("pack should shrink [packed] to 4", t, len(packed), 4)
 }
