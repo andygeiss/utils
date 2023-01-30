@@ -1,14 +1,9 @@
 package engine
 
-import (
-	"sync"
-)
-
 // defaultEngine implements a simple implementation using channels.
 type defaultEngine struct {
 	state   int
 	systems []System
-	mutex   sync.Mutex
 }
 
 // Setup initializes the engine and its subsystems.
